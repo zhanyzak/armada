@@ -29,8 +29,8 @@ class PayController extends Controller
         $paybox->customer->userEmail =  Auth::user()->email ?? '';
 
         $paybox->config->successUrlMethod = 'GET';
-        $paybox->config->resultUrl = env('APP_URL').'/api/pay/result';
-        $paybox->config->successUrl = env('APP_URL').'/pay/success';
+        $paybox->config->resultUrl = env('APP_URL').'api/pay/result';
+        $paybox->config->successUrl = env('APP_URL').'pay/success';
 
         if($paybox->init()) {
             file_put_contents('file.txt', $paybox );

@@ -4,7 +4,10 @@
         <option value="" disabled selected>Выберите из списка</option>
     @endif
     @forelse($stores as $store)
-        <option value="{{ $store->id }}" @if(isset($data) and $data->store_id == $store->id) selected @endif>{{ $store->title }}</option>
+        <option value="{{ $store->id }}" @if($store->isPaid == 0) disabled @endif @if(isset($data) and $data->store_id == $store->id) selected @endif>
+            {{ $store->title }}
+            @if($store->isPaid == 0) <div class="text-danger">(чтобы активировать, нужно оплатить тариф этого магазина)</div> @endif
+        </option>
     @empty
         <option value="{{ route('seller.stores.index') }}">У вас ещё нет магазинов. Добавьте их</option>
     @endforelse

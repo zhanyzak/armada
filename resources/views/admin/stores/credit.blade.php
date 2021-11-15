@@ -125,7 +125,7 @@
                         <div class="row">
                             <div class="col-12 col-lg">
                                 <div class="switch">
-                                @include('layouts.forms.switch',['name' => 'is_Armada','label'=>'Арендуйете в Армаде','on'=>'Да','off'=>'Нет', 'attributes' => ['id' => 'is_Armada']])
+                                @include('layouts.forms.switch',['name' => 'is_Armada','label'=>'Вы в Армаде?','on'=>'Да','off'=>'Нет', 'attributes' => ['id' => 'is_Armada']])
                                 </div>
                             </div>
                         </div>

@@ -59,7 +59,7 @@ class CatalogController extends Controller
         $products = $productsQuery->latest()
             ->paginate(16);
 
-        $banners = $this->bannerService->views(BannerType::CATEGORY);
+        $banners = $this->bannerService->views(BannerType::CATEGORY)->where('catalog', $catalog->id);
 
         $views = $this->productService->views();
         $likeIds = $this->service->likeIds();
@@ -82,7 +82,7 @@ class CatalogController extends Controller
             ->select('id','is_hot','title','slug','is_discount','discount','store_id','price','price_2','images', 'colors')
             ->where('subcatalog_id', $subcatalog->id);
 
-        $banners = $this->bannerService->views(BannerType::SUBCATEGORY);
+        $banners = $this->bannerService->views(BannerType::SUBCATEGORY)->where('subcatalog', $subcatalog->id);
 
         $products = $productsQuery->paginate(16);
 
@@ -138,7 +138,7 @@ class CatalogController extends Controller
         $views = $this->productService->views();
         $likeIds = $this->service->likeIds();
 
-        $banners = $this->bannerService->views(BannerType::SUBCATEGORY);
+        $banners = $this->bannerService->views(BannerType::SUBCATALOG)->where('subcatalog', $subcatalog->id);
 
         return view('pages.catalogs.subcatalog_show', compact( 'subcatalog','items','products','stores','countries','maxPrice','minPrice','views','likeIds', 'banners'));
     }
@@ -190,8 +190,10 @@ class CatalogController extends Controller
         $views = $this->productService->views();
         $likeIds = $this->service->likeIds();
 
+        $banners = $this->bannerService->views(BannerType::ITEM)->where('item', $item->id);
+
         // $colours = Product::active()->where('item_id', $item->id)->whereJsonContains('colors', ['beige', 'brown'])->select('title')->get();
         //dd($countries,$count1,$productsQuery->count());
-        return view('pages.catalogs.item_show', compact( 'item','products','stores','countries','maxPrice','minPrice','views','likeIds', 'colors', 'materials'));
+        return view('pages.catalogs.item_show', compact( 'item','products','stores','countries','maxPrice','minPrice','views','likeIds', 'colors', 'materials', 'banners'));
     }
 }

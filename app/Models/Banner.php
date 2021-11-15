@@ -23,7 +23,7 @@ class Banner extends Model
 
     protected $fillable = [
         'isActive','type_id','index','views','clicks',
-        'title','company_title','link','html','comment','start_at','end_at','archive','pause'
+        'title','company_title','link','html','comment','start_at','end_at','archive','pause', 'catalog', 'subcatalog', 'item'
     ];
 
     public function type()

@@ -15,8 +15,8 @@
                         <div class="d-flex align-content-center flex-wrap">
                             <h2 class="page-title orders__title mr-4 mb-2">Магазины</h2>
                             <div>
-                                <button class="button btn-sm btn-success products__add mr-2 mb-2">
-                                    <a href="{{ route('seller.stores.create') }}">Добавить</a>
+                                <button class="button btn-sm btn-success products__add mr-2 mb-2" @if($storesNotPaid > 0) data-toggle="modal" data-target=".mssg_pay_modal" @endif>
+                                    <a @if($storesNotPaid == 0) href="{{ route('seller.stores.create') }}" @endif>Добавить</a>
                                 </button>
                                 <button class="button btn-sm btn-primary products__remove mr-2 mb-2" disabled data-toggle="modal" data-target="#confirm-delete-modal">
                                     <span>Удалить выделенное</span>
@@ -47,6 +47,7 @@
                                     <th>Расположение</th>
                                     <th>Дата</th>
                                     <th>Товары</th>
+                                    <th>Инфо оплаты</th>
                                     <th class="text-center">Действия</th>
                                 </tr>
                             </thead>
@@ -60,6 +61,7 @@
         </div>
     </section>
 @endsection
+@include('sellers.components.mssg_pay_modal')
 
 @push('styles')
     <link rel="stylesheet" href="{{ asset('css/page-vendor-area/vendor-area.min.css') }}">

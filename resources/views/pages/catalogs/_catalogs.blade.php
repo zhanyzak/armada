@@ -60,6 +60,7 @@
                 @endif
                 <button class="button btn-primary d-lg-none my-4 mr-4 float-right">Применить</button>
             </form>
+            @include('pages.catalogs._index_banners')
         </aside>
         <div class="catalog__content col-12 col-lg-9">
             <div class="catalog__header d-none d-lg-flex align-items-center justify-content-end">

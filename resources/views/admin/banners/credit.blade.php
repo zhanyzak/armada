@@ -123,29 +123,29 @@
                        <div class="row">
                            <div class="col-12 col-lg-4" mb-3>
                                <label class="mdb-main-label">Категория</label>
-                               <select class="form-control" name="category" searchable="Поиск">
+                               <select class="form-control" name="catalog" searchable="Поиск">
                                    <option value="" disabled selected>Выберите</option>
-                                   <option value="1">Вариант 1</option>
-                                   <option value="2">Вариант 2</option>
-                                   <option value="3">Вариант 3</option>
+                                   @foreach ($cats as $catalog)
+                                   <option value="{{ $catalog->id ?? '' }}" @if(isset($data) && $data->catalog == $catalog->id) selected @endif>{{ $catalog->title ?? '' }}</option>
+                                   @endforeach
                                </select>
                            </div>
                            <div class="col-12 col-lg-4 mb-3">
                                <label class="mdb-main-label">Раздел</label>
-                               <select class="form-control" name="section" searchable="Поиск">
+                               <select class="form-control" name="subcatalog" searchable="Поиск">
                                    <option value="" disabled selected>Выберите</option>
-                                   <option value="1">Вариант 1</option>
-                                   <option value="2">Вариант 2</option>
-                                   <option value="3">Вариант 3</option>
+                                   @foreach ($subcats as $subcatalog)
+                                   <option value="{{ $subcatalog->id ?? '' }}" @if(isset($data) && $data->subcatalog == $subcatalog->id) selected @endif>{{ $subcatalog->title ?? '' }}</option>
+                                   @endforeach
                                </select>
                            </div>
                            <div class="col-12 col-lg-4 mb-3">
                                <label class="mdb-main-label">Подраздел</label>
-                               <select class="form-control" name="subsection" searchable="Поиск">
+                               <select class="form-control" name="item" searchable="Поиск">
                                    <option value="" disabled selected>Выберите</option>
-                                   <option value="1">Вариант 1</option>
-                                   <option value="2">Вариант 2</option>
-                                   <option value="3">Вариант 3</option>
+                                   @foreach ($items as $item)
+                                   <option value="{{ $item->id ?? '' }}" @if(isset($data) && $data->item == $item->id) selected @endif>{{ $item->title ?? '' }}</option>
+                                   @endforeach
                                </select>
                            </div>
                        </div>
@@ -388,6 +388,42 @@
             });
         }
     </script>
+
+    {{-- <script>
+        const getData = async (id) =>
+        {
+            let data = await fetch( `http://armada.test:8080/api/subcatalogs/${id.value}`)
+
+            if(data.ok)
+            {
+                let json = await data.json()
+                var select = $('form select[name=subcatalog]')
+
+                select.empty()
+
+                $.each(json.subs, function(key, value) {
+                    select.append('<option value=' + value.id + '>' + value.title + '</option>')
+                });
+            }
+        }
+
+        const getDataItems = async (id) =>
+        {
+            let data = await fetch( `http://armada.test:8080/api/items/${id.value}`)
+
+            if(data.ok)
+            {
+                let json = await data.json()
+                var select = $('form select[name=item]')
+
+                select.empty()
+
+                $.each(json.items, function(key, value) {
+                    select.append('<option value=' + value.id + '>' + value.title + '</option>')
+                });
+            }
+        }
+    </script> --}}
 @endpush
 
 

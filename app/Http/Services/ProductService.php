@@ -312,7 +312,7 @@ class ProductService
     public function getForCredit_stores()
     {
         $storesQuery = Store::orderBy('title')
-            ->select('id','title');
+            ->select('id','title', 'isPaid');
         $storesQuery = (Auth::user()->role_id == UserRole::ADMIN and Route::is('admin.*'))
             ? $storesQuery
             : $storesQuery->where('user_id',Auth::id());

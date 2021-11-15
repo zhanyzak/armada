@@ -2,14 +2,17 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\Item;
+use App\Models\Store;
+use App\Models\Banner;
+use App\Models\Catalog;
+use App\Models\BannerType;
+use App\Models\Subcatalog;
+use Illuminate\Support\Str;
+use Illuminate\Http\Request;
+use App\Http\Services\Service;
 use App\Http\Controllers\Controller;
 use App\Http\Services\BannerService;
-use App\Http\Services\Service;
-use App\Models\Banner;
-use App\Models\BannerType;
-use App\Models\Store;
-use Illuminate\Http\Request;
-use Illuminate\Support\Str;
 
 class BannerControllerAdmin extends Controller
 {
@@ -42,7 +45,11 @@ class BannerControllerAdmin extends Controller
         }
 
         $types = BannerType::isActive()->get();
-        return view('admin.banners.credit',compact('types','storesArray'));
+
+        $cats = Catalog::select('id', 'title')->get();
+        $subcats = Subcatalog::select('id', 'title')->get();
+        $items = Item::select('id', 'title')->get();
+        return view('admin.banners.credit', compact('types','storesArray','cats', 'subcats','items'));
     }
 
     public function store(Request $request)
@@ -83,14 +90,19 @@ class BannerControllerAdmin extends Controller
         foreach ($stores as $store) {
             $storesArray[$store->id] = $store->title;
         }
+        $cats = Catalog::select('id', 'title')->get();
+        $subcats = Subcatalog::select('id', 'title')->get();
+        $items = Item::select('id', 'title')->get();
 
-        return view('admin.banners.credit',compact('data','types', 'storesArray'));
+        return view('admin.banners.credit',compact('data','types', 'storesArray', 'cats', 'subcats', 'items'));
     }
 
     public function update(Request $request, $id)
     {
+        //return $request->all();
         $data = Banner::find($id);
         $data->edit($request->all());
+        //$data->catalog = $request->catalog;
         $data->start_at = $this->bannerService->dateStart($data,$request->period);
         $data->end_at = $this->bannerService->dateend($data,$request->period);
         $data->uploadDataImage($request->images_1920x550, 'images_1920x550','jpeg','banners');

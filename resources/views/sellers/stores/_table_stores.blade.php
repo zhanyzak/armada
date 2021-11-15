@@ -45,6 +45,19 @@
         <a href="{{ route('seller.products.index',['store'=>$store->slug]) }}"><b>{{ $store->products->count() }}</b></a><br>
     </td>
     <td class="text-center">
+        @if($store->isPaid == 0)
+            <a class="btn btn-danger btn-sm" data-toggle="modal" data-target=".pay_modal">Оплатить</a>
+        @else
+            <div class="products__status products__status--active">
+                <b>Оплачено</b><br>
+            </div>
+            <div><b>Дата оплаты:</b><br />{{ $store->paid_date ?? '' }}</div>
+            <div><b>Дата оканчание оплаты:</b><br />{{ $store->end_paid_date}}</div>
+        @endif
+
+        @include('sellers.components.pay_modal', ['store' => $store, 'tarifs' => \App\Models\Tarif::get()])
+    </td>
+    <td class="text-center">
         <button class="products-table__edit mx-2" data-toggle="modal" data-target="#quick-edit" data-item-id="{{ $store->id }}">
             <input type="hidden" name="edit-action" value="{{ route('seller.stores.edit',['id'=>$store->id]) }}">
             <input type="hidden" name="edit-link" value="{{ route('seller.storeUpdate',['id'=>$store->id]) }}">

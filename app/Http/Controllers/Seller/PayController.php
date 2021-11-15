@@ -2,61 +2,47 @@
 
 namespace App\Http\Controllers\Seller;
 
-use App\Http\Controllers\Controller;
 use App\Models\Tarif;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Http;
-use Paybox\Pay\Facade as Paybox;
 use SimpleXMLElement;
+use Illuminate\Support\Str;
+use Illuminate\Http\Request;
+use Paybox\Pay\Facade as Paybox;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Http;
 
 class PayController extends Controller
 {
-    public function payStore($tarif)
+    public function payStore($tarif, $store)
     {
         $tarif = Tarif::findOrFail($tarif);
         $paybox = new Paybox();
 
-        $paybox->merchant->id = 540629;
-        $paybox->merchant->secretKey = '3le80mV4EnGLaIRC';
-        $paybox->order->id = 10001;
-        $paybox->order->store_id = 12;
-        $paybox->order->description = 'test order';
+        $paybox->merchant->id = 540634;
+        $paybox->merchant->secretKey = 'XRDcqWXiIQY3YM4W';
+        $paybox->order->id = rand(000000, 999999);
+        $paybox->order->store_id = $store;
+        $paybox->order->description = 'Оплата '.$tarif->title;
         $paybox->order->amount = $tarif->placement_price;
-        $paybox->customer->user_phone = 77775556664;
-        $paybox->customer->salt = 'test';
-        $paybox->customer->userEmail = 'admin@admin.kz';
+        $paybox->customer->user_phone = $this->getPhoneNumberAttribute(Auth::user()->phones[0] ?? '');
+        $paybox->customer->salt = 'Оплата тарифа армады';
+        $paybox->customer->userEmail =  Auth::user()->email ?? '';
 
         $paybox->config->successUrlMethod = 'GET';
-        $paybox->config->resultUrl = 'https://market.armada.kz/api/pay/result';
-        $paybox->config->successUrl = 'https://market.armada.kz/pay/success';
+        $paybox->config->resultUrl = env('APP_URL').'/api/pay/result';
+        $paybox->config->successUrl = env('APP_URL').'/pay/success';
 
         if($paybox->init()) {
             file_put_contents('file.txt', $paybox );
             header('Location:' . $paybox->redirectUrl);
-            //dd($paybox);
         }
+    }
 
-        // $url = 'https://api.paybox.money/init_payment.php';
-
-        // $request = $requestForsign = [
-        //     'pg_order_id'    => '10001',
-        //     'pg_merchant_id' => 540629,
-        //     'pg_user_phone'  => '77775556633',
-        //     'pg_amount'      => $tarif->placement_price,
-        //     'pg_description' => 'Тестовый платеж',
-        //     'pg_salt'        => 'gogo'
-        // ];
-
-        // $requestForSignature = $this->makeFlatParamsArray($requestForsign);
-
-        // ksort($requestForSignature); // Сортировка по ключю
-        // array_unshift($requestForSignature, 'init_payment.php'); // Добавление в начало имени скрипта
-        // array_push($requestForSignature, '3le80mV4EnGLaIRC'); // Добавление в конец секретного ключа
-
-        // $request['pg_sig'] = md5(implode(';', $requestForSignature)); // Полученная подпись
-        // $response = Http::post($url, $request);
-        // return (new SimpleXMLElement($response));
-
+    protected function getPhoneNumberAttribute($phone)
+    {
+        $cleaned = preg_replace('/[^[:digit:]]/', '', $phone);
+        preg_match('/(\d{1})(\d{3})(\d{3})(\d{4})/', $cleaned, $matches);
+        return "7{$matches[2]}{$matches[3]}{$matches[4]}";
     }
 
     function makeFlatParamsArray($arrParams, $parent_name = '')

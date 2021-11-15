@@ -1,11 +1,10 @@
 @isset($popupBanner)
 <div class="modal fade" id="myModal">
-    <button type="button" class="close" data-dismiss="modal" style="color: #fff; margin-top: 25px; margin-right: 25px;">&times;</button>
-    <div class="modal-dialog modal-dialog-centered modal-lg" style="width: 800px; height: 250px;">
+    <div class="modal-dialog modal-dialog-centered modal-lg" style="max-width: 800px; max-height: 250px;">
       <div class="modal-content">
-
         <!-- Modal body -->
-        <div class="modal-body" style="padding: 0px;">
+        <div class="modal-body" style="padding: 5px;">
+            <button type="button" class="close" data-dismiss="modal" style="position: absolute; color: red; background:#fff; top: -15px; right: -15px; font-size: 30px; width: 30px; height: 30px; border-radius: 50rem; opacity: 1;">&times;</button>
             @foreach ($popupBanner as $banner)
             <a href="{{$banner->link}}" target="_blank">
                 <picture>

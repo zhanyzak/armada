@@ -73,7 +73,7 @@ Route::group(['middleware' => ['auth','isSeller'],'prefix' => 'seller', 'as' => 
         Route::resource('/callback','CallbackControllerSeller');
 
         Route::get('/pay', [PayController::class, 'pay'])->name('pay');
-        Route::get('/paystore/{tarif}', [PayController::class, 'payStore'])->name('payStore');
+        Route::get('/paystore/{tarif}/{store}', [PayController::class, 'payStore'])->name('payStore');
     });
 
 });

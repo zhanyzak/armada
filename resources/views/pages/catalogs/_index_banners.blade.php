@@ -3,29 +3,31 @@
         <ul class="banner__items">
             @foreach($banners as $banner)
                 <li class="banner-item banner__item">
-                    <picture>
-                        @if($banner->images_1580x550 != null)<source srcset="{{ '/storage/'.$banner->images_1580x550 }}" media="(min-width: 1440px)">@endif
-                        @if($banner->images_1280x450 != null)<source srcset="{{ '/storage/'.$banner->images_1280x450 }}" media="(min-width: 1280px)">@endif
-                        @if($banner->images_1024x450 != null)<source srcset="{{ '/storage/'.$banner->images_1024x450 }}" media="(min-width: 1024px)">@endif
-                        @if($banner->images_768x495 != null)<source srcset="{{ '/storage/'.$banner->images_768x495 }}" media="(min-width: 768px)">@endif
-                        @if($banner->images_576x350 != null)<source srcset="{{ '/storage/'.$banner->images_576x350 }}" media="(min-width: 576px)">@endif
-                        <img src="{{ $banner->images_1920x550 != null
-                                        ? '/storage/'.$banner->images_1920x550
-                                        : ($banner->images_1580x550 != null
-                                            ? '/storage/'.$banner->images_1580x550
-                                            : ($banner->images_1280x450 != null
-                                                ? '/storage/'.$banner->images_1280x450
-                                                : ($banner->images_1024x450 != null
-                                                    ? '/storage/'.$banner->images_1024x450
-                                                    : ($banner->images_768x495 != null
-                                                        ? '/storage/'.$banner->images_768x495
-                                                        : '/storage/'.$banner->images_576x350
+                    <a href="{{$banner->link}}" target="_blank">
+                        <picture>
+                            @if($banner->images_1580x550 != null)<source srcset="{{ '/storage/'.$banner->images_1580x550 }}" media="(min-width: 1440px)">@endif
+                            @if($banner->images_1280x450 != null)<source srcset="{{ '/storage/'.$banner->images_1280x450 }}" media="(min-width: 1280px)">@endif
+                            @if($banner->images_1024x450 != null)<source srcset="{{ '/storage/'.$banner->images_1024x450 }}" media="(min-width: 1024px)">@endif
+                            @if($banner->images_768x495 != null)<source srcset="{{ '/storage/'.$banner->images_768x495 }}" media="(min-width: 768px)">@endif
+                            @if($banner->images_576x350 != null)<source srcset="{{ '/storage/'.$banner->images_576x350 }}" media="(min-width: 576px)">@endif
+                            <img src="{{ $banner->images_1920x550 != null
+                                            ? '/storage/'.$banner->images_1920x550
+                                            : ($banner->images_1580x550 != null
+                                                ? '/storage/'.$banner->images_1580x550
+                                                : ($banner->images_1280x450 != null
+                                                    ? '/storage/'.$banner->images_1280x450
+                                                    : ($banner->images_1024x450 != null
+                                                        ? '/storage/'.$banner->images_1024x450
+                                                        : ($banner->images_768x495 != null
+                                                            ? '/storage/'.$banner->images_768x495
+                                                            : '/storage/'.$banner->images_576x350
+                                                        )
                                                     )
                                                 )
                                             )
-                                        )
-                                    }}" alt="Banner alt" class="banner-item__image">
-                    </picture>
+                                        }}" alt="Banner alt" class="banner-item__image">
+                        </picture>
+                    </a>
                 </li>
             @endforeach
 {{--            <li class="banner-item banner__item">--}}
@@ -39,7 +41,7 @@
 {{--                </picture>--}}
 {{--            </li>--}}
         </ul>
-        <div class="banner__controls">
+        {{-- <div class="banner__controls">
             <div class="banner__arrows">
                 <div class="banner__arrow banner__arrow--prev">
                     <svg width="37" height="37" viewBox="0 0 37 37" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -54,6 +56,6 @@
                     </svg>
                 </div>
             </div>
-        </div>
+        </div> --}}
     </section>
 @endif

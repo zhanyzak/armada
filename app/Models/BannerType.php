@@ -19,6 +19,7 @@ class BannerType extends Model
     const HOME_BOTTOM = 3; // главная страница центр-низ
     const CATEGORY = 4; // страница категорий
     const SUBCATEGORY = 5; // страница раздела
+    const SUBCATALOG = 9; // в списке страницы раздела
     const ITEM = 6; // страница подраздела
     const WIDE_TOP = 7; // Верхний широкий баннер
     const POPUP = 8; // попап баннер

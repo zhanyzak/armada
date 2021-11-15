@@ -23,13 +23,8 @@
         <h2 class="page-title page-catalog__title">{{ $subcatalog->title }}</h2>
     </div>
 
-    {{-- @if($items->count() > 0) --}}
     @include('pages.catalogs._index_banners')
     @include('pages.catalogs._items')
-    {{-- @else
-    @include('pages.catalogs._filter')
-    @include('pages.catalogs._catalog')
-    @endif --}}
     @include('pages.catalogs._viewed')
 @endsection
 

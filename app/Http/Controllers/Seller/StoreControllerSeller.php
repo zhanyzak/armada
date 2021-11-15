@@ -2,16 +2,18 @@
 
 namespace App\Http\Controllers\Seller;
 
-use App\Http\Controllers\Controller;
-use App\Http\Requests\StoreRequest;
-use App\Http\Services\Service;
-use App\Http\Services\StoreService;
-use App\Models\Product;
+use Carbon\Carbon;
 use App\Models\Store;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
+use App\Models\Tarif;
+use App\Models\Product;
 use Illuminate\Support\Str;
+use Illuminate\Http\Request;
+use App\Http\Services\Service;
+use Illuminate\Support\Facades\DB;
+use App\Http\Requests\StoreRequest;
+use App\Http\Services\StoreService;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class StoreControllerSeller extends Controller
 {
@@ -26,11 +28,16 @@ class StoreControllerSeller extends Controller
 
     public function index()
     {
-        $stores = Store::where('user_id',Auth::id())
-            ->select('id','status','title','description','phones','address','logo','block','intersection','butik','created_at','updated_at','slug')
+        Store::where('user_id', Auth::id())->where('end_paid_date', '<', Carbon::now())->update(['isPaid' => 0, 'isActive' => 0, 'status' => 0]);
+        $stores = Store::where('user_id', Auth::id())
+            ->select('id','status','title','description','phones','address','logo','block','intersection','butik','created_at','updated_at','slug', 'isPaid', 'paid_date', 'end_paid_date')
             ->with('products')
             ->get();
-        return view('sellers.stores.index',compact('stores'));
+
+        $tarifs = Tarif::get();
+
+        $storesNotPaid = Store::where('user_id',Auth::id())->where('isPaid', 0)->get()->count();
+        return view('sellers.stores.index',compact('stores', 'storesNotPaid', 'tarifs'));
     }
 
     public function create()

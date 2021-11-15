@@ -1,29 +1,30 @@
 <?php
 
-use App\Http\Controllers\ApplicationController;
-use App\Http\Controllers\IndexController;
-use App\Http\Controllers\Pages\FaqController;
-use App\Http\Controllers\Pages\AboutController;
-use App\Http\Controllers\Pages\AdvertiserController;
-use App\Http\Controllers\Pages\CatalogController;
-use App\Http\Controllers\Pages\ContactController;
-use App\Http\Controllers\Pages\DeliveryController;
-use App\Http\Controllers\Pages\FurnitureCareController;
-use App\Http\Controllers\Pages\HowToBuyController;
-use App\Http\Controllers\Pages\ForSellerController;
-use App\Http\Controllers\Pages\HomeController;
-use App\Http\Controllers\Pages\IdeaCareController;
-use App\Http\Controllers\Pages\NewsController;
-use App\Http\Controllers\Pages\PaymentController;
-use App\Http\Controllers\Pages\ProjectController;
-use App\Http\Controllers\Pages\SchemeController;
-use App\Http\Controllers\Pages\ServiceController;
-use App\Http\Controllers\Pages\ShopController;
-use App\Http\Controllers\Pages\ProductController;
-use App\Http\Controllers\Pages\TenantController;
-use App\Http\Controllers\Pages\TourController;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\IndexController;
+use App\Http\Controllers\Pages\FaqController;
+use App\Http\Controllers\Pages\HomeController;
+use App\Http\Controllers\Pages\NewsController;
+use App\Http\Controllers\Pages\ShopController;
+use App\Http\Controllers\Pages\TourController;
+use App\Http\Controllers\ApplicationController;
+use App\Http\Controllers\Pages\AboutController;
+use App\Http\Controllers\Pages\SchemeController;
+use App\Http\Controllers\Pages\TenantController;
+use App\Http\Controllers\Pages\CatalogController;
+use App\Http\Controllers\Pages\ContactController;
+use App\Http\Controllers\Pages\PaymentController;
+use App\Http\Controllers\Pages\ProductController;
+use App\Http\Controllers\Pages\ProjectController;
+use App\Http\Controllers\Pages\ServiceController;
+use App\Http\Controllers\Pages\DeliveryController;
+use App\Http\Controllers\Pages\HowToBuyController;
+use App\Http\Controllers\Pages\IdeaCareController;
+use App\Http\Controllers\Pages\ForSellerController;
+use App\Http\Controllers\Pages\AdvertiserController;
+use App\Http\Controllers\Pages\FurnitureCareController;
 
 
 // ,'middleware' => 'throttle:10|60,1'
@@ -146,29 +147,10 @@ Route::group(['prefix' => App\Http\Middleware\Locale::getLocale()],// макси
         Route::post('/prodavcy-comments',[ShopController::class,'shopComments'])
             ->name('shopComments');
 
-
-        // Route::get('/test-a-test', function() {
-        //     $data = \App\Models\Store::select('id','title')->chunk(50, function($stores){
-        //         foreach($stores as $n => $store)
-        //         {
-        //             \App\Models\Store::where('id', $store->id)->update(['tarif_end_date' => now()->addDays(60)->format('Y-m-d')]);
-        //             echo $store->title." - ".now()->addDays(60)->format('Y-m-d')." - success";
-        //             echo "<br />";
-        //         }
-        //     });
-        // });
-
-        // mb_substr($store->title, 0, 1)
-
-        Route::get('/pay/success', function() {
-            //file_put_contents('file.txt', $request->all());
-            return request()->all();
+        Route::get('/pay/success', function(Request $request) {
+            file_put_contents('file.txt', $request->all());
+            return redirect()->route('seller.stores.index');
         });
-
-        // Route::post('/pay/success', function(Request $request) {
-        //     //file_put_contents('file.txt', $request->all());
-        //     return $request->all();
-        // });
     });
 
 //Переключение языков

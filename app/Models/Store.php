@@ -27,7 +27,7 @@ class Store extends Model
 
     protected $dates = ['deleted_at'];
 
-    protected $table = 'stores_table';
+    protected $table = 'stores_new';
 
     protected $fillable = [
         'isActive',

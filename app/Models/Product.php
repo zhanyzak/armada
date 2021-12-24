@@ -23,6 +23,9 @@ class Product extends Model
     use IsJson;
     use Scopes;
     use Sluggable;
+
+    protected $table = 'products_new';
+
     public function sluggable(): array
     {
         $slug = $this->is_slug == true ? $this->slug : 'title' ;
@@ -31,7 +34,6 @@ class Product extends Model
 //    use Searchable;           15/10/20
 //    use SearchableTrait;
 
-    protected $table = 'products';
 
     protected $dates = ['deleted_at'];
 
